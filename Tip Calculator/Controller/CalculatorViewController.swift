@@ -7,12 +7,12 @@
 
 import UIKit
 
-class CalculatorViewController: UIViewController {
+class CalculatorViewController: UIViewController, UITextFieldDelegate {
     var tip = 0.1
     var numPeople = 2
     var billTotal = 0.0
     
-    @IBOutlet weak var billLabel: UITextField!
+    @IBOutlet weak var billInputField: UITextField!
     @IBOutlet weak var twentyTipLabel: UIButton!
     @IBOutlet weak var tenTipLabel: UIButton!
     @IBOutlet weak var zeroTipLabel: UIButton!
@@ -20,13 +20,13 @@ class CalculatorViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        billInputField.delegate = self
     }
 
     
     @IBAction func calculateBtn(_ sender: Any) {
         
-        billTotal = Double(billLabel.text ?? "0.0") ?? 0.0
+        billTotal = Double(billInputField.text ?? "0.0") ?? 0.0
         
         performSegue(withIdentifier: "showResults", sender: self)
     }
@@ -50,6 +50,11 @@ class CalculatorViewController: UIViewController {
     @IBAction func stepperBtn(_ sender: UIStepper) {
         numPeople = Int(sender.value)
         numPeopleLabel.text = String(numPeople)
+    }
+    
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
 }
 
